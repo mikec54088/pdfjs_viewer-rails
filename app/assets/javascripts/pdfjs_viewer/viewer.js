@@ -4086,6 +4086,21 @@ var PDFPageView = (function PDFPageViewClosure() {
 
         pdfPage.render(renderContext).promise.then(function() {
           // Tell the printEngine that rendering this canvas/page has finished.
+
+          var wm = window.watermark;
+          var txt = wm.text;
+          if (txt) {
+            obj.context.fillStyle = wm.fill || 'rgba(66, 66, 66, 0.08)';
+            obj.context.font = wm.font || "bold 24px Arial";
+            var txtHeight=wm.textHeight || 80;
+            var offset=wm.offset || 25;
+            var w=Math.ceil(obj.context.measureText(txt).width);
+            var txt=new Array(w*2).join(txt+' ');//change the multipler for more lines
+            for(var i=0;i<Math.ceil(obj.context.canvas.height/txtHeight);i++){
+              obj.context.fillText(txt,-(i*offset),i*txtHeight);
+            }
+          }
+
           obj.done();
         }, function(error) {
           console.error(error);

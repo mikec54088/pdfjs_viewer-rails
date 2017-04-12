@@ -37,6 +37,14 @@ See https://github.com/adobe-type-tools/cmap-resources
     <!-- This snippet is used in production (included from viewer.html) -->
     <link rel="resource" type="application/l10n" href="/pdfjs/web/locale/locale.properties"/>
 
+    <script type="text/javascript">
+    <% if local_assigns[:watermark] %>
+      window.watermark = <%= raw watermark.to_json %>;
+    <% else %>
+      window.watermark = {};
+    <% end %>
+    </script>
+
     <% if local_assigns[:pdf_url] %>
       <script type="text/javascript">
         window.resourceURL = "<%= pdf_url %>";
